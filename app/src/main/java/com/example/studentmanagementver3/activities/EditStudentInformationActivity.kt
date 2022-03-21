@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.example.studentmanagementver3.databases.StudentDatabase
 import com.example.studentmanagementver3.models.Student
 import com.example.studentmanagementver3.models.StudentList
 import kotlinx.serialization.encodeToString
@@ -28,6 +29,7 @@ class EditStudentInformationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_student_information)
 
         var classroom: String? = null
+
         editStudentNameET = findViewById(R.id.editNameET)
         editStudentBrithdayET = findViewById(R.id.editDateET)
         editStudentClassSpinner = findViewById(R.id.editClassSpinner)
@@ -37,6 +39,7 @@ class EditStudentInformationActivity : AppCompatActivity() {
 
 
         val classroomList = listOf("19KTPM1", "19KTPM2", "19KTPM3")
+        val db = StudentDatabase.getInstance(this)
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, classroomList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -53,13 +56,9 @@ class EditStudentInformationActivity : AppCompatActivity() {
             }
 
         val intent = intent
-        var oldStudent = Student(
-            intent.getStringExtra("name").toString(),
-            intent.getStringExtra("birthday").toString(),
-            intent.getStringExtra("classroom").toString(),
-            intent.getStringExtra("gender").toString()
-        )
-        this.setStudentInformation(
+        val position = intent.getIntExtra("position", 0)
+        var oldStudent = StudentList.getStudentAtPosition(position)
+        this.setValue(
             oldStudent.name,
             oldStudent.birthday,
             oldStudent.classroom,
@@ -89,17 +88,20 @@ class EditStudentInformationActivity : AppCompatActivity() {
                 radioButton!!.text.toString()
             )
             StudentList.editStudentInfo(oldStudent, newStudent)
+            oldStudent.id = 1
+            db!!.studentDao().updateStudent(newStudent)
             Toast.makeText(this, "Update successfully!", Toast.LENGTH_SHORT).show()
             finish()
         }
         deleteBtn!!.setOnClickListener {
             StudentList.deleteStudent(oldStudent)
+            db!!.studentDao().deleteStudent(position)
             Toast.makeText(this, "Delete successfully!", Toast.LENGTH_SHORT).show()
             finish()
         }
     }
 
-    fun setStudentInformation(name: String, birthday: String, classroom: String, gender: String) {
+    fun setValue(name: String, birthday: String, classroom: String, gender: String) {
         editStudentNameET!!.setText(name)
         editStudentBrithdayET!!.setText(birthday)
         var pos: Int = classroom.last().digitToInt() - 1

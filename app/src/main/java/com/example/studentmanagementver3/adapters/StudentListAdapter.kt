@@ -15,7 +15,7 @@ class StudentListAdapter(
     private val isLinearLayoutManager: Boolean
 ) :
     RecyclerView.Adapter<StudentListAdapter.ViewHolder>() {
-    var onItemClick: ((Student) -> Unit)? = null
+    var onItemClick: ((Int) -> Unit)? = null
 
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val studentNameTV = listItemView.findViewById<TextView>(R.id.studentFullNameTV)
@@ -25,7 +25,7 @@ class StudentListAdapter(
 
         init {
             listItemView.setOnClickListener {
-                onItemClick?.invoke(studentList[adapterPosition])
+                onItemClick?.invoke(adapterPosition)
             }
         }
     }

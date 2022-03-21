@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.studentmanagementver3.adapters.StudentListAdapter
+import com.example.studentmanagementver3.databases.StudentDatabase
 import com.example.studentmanagementver3.models.Student
 import com.example.studentmanagementver3.models.StudentList
 import kotlinx.serialization.json.Json
@@ -50,11 +51,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun readDatabase() {
+        val db = StudentDatabase.getInstance(this)
+        Log.i("hdlog", getDatabasePath(StudentDatabase.DATABASE_NAME).absolutePath)
+        val studentList: ArrayList<Student> = db!!.studentDao().getStudentList() as ArrayList<Student>
+        StudentList.setListData(studentList)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_student_list)
 
-        readJSONFile()
+//        readJSONFile()
+        readDatabase()
 
         studentRecyclerView = findViewById(R.id.studentListRV)
         addStudentBtn = findViewById(R.id.addStudentBtn)
@@ -106,15 +115,10 @@ class MainActivity : AppCompatActivity() {
     fun setUpRecyclerAdapter(data: ArrayList<Student>, isLinearLayoutManager: Boolean) {
         adapter = StudentListAdapter(data, isLinearLayoutManager!!)
         studentRecyclerView!!.adapter = adapter
-        adapter!!.onItemClick = { student ->
-            val intent = Intent(
-                this@MainActivity,
-                EditStudentInformationActivity::class.java
-            )
-            intent.putExtra("name", student.name)
-            intent.putExtra("classroom", student.classroom)
-            intent.putExtra("gender", student.gender)
-            intent.putExtra("birthday", student.birthday)
+        adapter!!.onItemClick = { position ->
+            val intent = Intent(this, EditStudentInformationActivity::class.java)
+            intent.putExtra("position", position)
+            Log.i("hdlog", "position: $position")
             startActivity(intent)
         }
     }

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.studentmanagementver3.databases.StudentDatabase
 import com.example.studentmanagementver3.models.Student
 import com.example.studentmanagementver3.models.StudentList
 import kotlinx.serialization.encodeToString
@@ -34,6 +35,7 @@ class AddStudentActivity : AppCompatActivity() {
         saveStudentBtn = findViewById(R.id.saveAddStudentBtn_1)
 
         val classroomList = listOf("19KTPM1", "19KTPM2", "19KTPM3")
+        val db = StudentDatabase.getInstance(this)
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, classroomList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -70,6 +72,7 @@ class AddStudentActivity : AppCompatActivity() {
             )
             // add student to list
             StudentList.addStudent(student)
+            db!!.studentDao().insertStudent(student)
             Toast.makeText(this, "Saved successfully!", Toast.LENGTH_SHORT).show()
             // clear user input
             this.clearInput()
