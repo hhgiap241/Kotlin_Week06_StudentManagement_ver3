@@ -1,17 +1,13 @@
-package com.example.studentmanagementver2.adapters
+package com.example.studentmanagementver3.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.studentmanagementver2.models.Student
-import com.example.studentmanagementver2.models.StudentList
-import studentmanagementver2.R
+import com.example.studentmanagementver3.models.Student
+import studentmanagementver3.R
 
 
 class StudentListAdapter(

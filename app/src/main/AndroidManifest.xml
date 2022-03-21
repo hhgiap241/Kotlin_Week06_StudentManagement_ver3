@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="studentmanagementver2">
+    package="studentmanagementver3">
 
     <application
         android:allowBackup="true"
@@ -11,20 +11,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudentManagement">
         <activity
-            android:name="com.example.studentmanagementver2.activities.EditStudentInformationActivity"
+            android:name="com.example.studentmanagementver3.activities.EditStudentInformationActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.studentmanagementver2.activities.ShowStudentListActivity"
+            android:name="com.example.studentmanagementver3.activities.ShowStudentListActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.studentmanagementver2.activities.AddStudentActivity"
+            android:name="com.example.studentmanagementver3.activities.AddStudentActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.studentmanagementver2.adapters.MainAdapter"
+            android:name="com.example.studentmanagementver3.adapters.MainAdapter"
             android:exported="false"
             tools:ignore="Instantiatable" />
         <activity
-            android:name="com.example.studentmanagementver2.activities.MainActivity"
+            android:name="com.example.studentmanagementver3.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

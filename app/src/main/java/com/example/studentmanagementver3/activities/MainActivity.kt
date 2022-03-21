@@ -1,4 +1,4 @@
-package com.example.studentmanagementver2.activities
+package com.example.studentmanagementver3.activities
 
 import android.content.Context
 import android.content.Intent
@@ -13,12 +13,16 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.studentmanagementver2.adapters.StudentListAdapter
-import com.example.studentmanagementver2.models.Student
-import com.example.studentmanagementver2.models.StudentList
-import studentmanagementver2.R
+import com.example.studentmanagementver3.adapters.StudentListAdapter
+import com.example.studentmanagementver3.models.Student
+import com.example.studentmanagementver3.models.StudentList
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
+import studentmanagementver3.R
+import java.io.FileNotFoundException
+import java.io.InputStream
 
-class ShowStudentListActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private var adapter: StudentListAdapter? = null
     private var autoCompleteTVAdapter: ArrayAdapter<String>? = null
@@ -28,9 +32,29 @@ class ShowStudentListActivity : AppCompatActivity() {
     private var isLinearLayoutManager: Boolean? = null
     private var autoCompleteTV: AutoCompleteTextView? = null
 
+    fun readJSONFile() {
+        try {
+            var data: ArrayList<Student> = ArrayList()
+            val inputStream: InputStream = openFileInput("studentList.json")
+            data = Json { ignoreUnknownKeys = true; explicitNulls = false }.decodeFromStream(
+                inputStream
+            )
+            // set data for student list
+            StudentList.setListData(data)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+//            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+        } catch (t: Throwable) {
+            t.printStackTrace()
+//            Toast.makeText(this, t.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_student_list)
+
+        readJSONFile()
 
         studentRecyclerView = findViewById(R.id.studentListRV)
         addStudentBtn = findViewById(R.id.addStudentBtn)
@@ -84,7 +108,7 @@ class ShowStudentListActivity : AppCompatActivity() {
         studentRecyclerView!!.adapter = adapter
         adapter!!.onItemClick = { student ->
             val intent = Intent(
-                this@ShowStudentListActivity,
+                this@MainActivity,
                 EditStudentInformationActivity::class.java
             )
             intent.putExtra("name", student.name)

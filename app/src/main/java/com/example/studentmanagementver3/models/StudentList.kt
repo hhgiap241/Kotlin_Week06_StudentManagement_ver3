@@ -1,4 +1,4 @@
-package com.example.studentmanagementver2.models
+package com.example.studentmanagementver3.models
 
 
 object StudentList {

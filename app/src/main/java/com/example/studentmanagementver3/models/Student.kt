@@ -1,5 +1,4 @@
-package com.example.studentmanagementver2.models
-import kotlinx.serialization.SerialName
+package com.example.studentmanagementver3.models
 import kotlinx.serialization.Serializable
 
 @Serializable

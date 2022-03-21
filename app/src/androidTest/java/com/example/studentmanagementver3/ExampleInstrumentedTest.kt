@@ -1,4 +1,4 @@
-package com.example.studentmanagementver2
+package com.example.studentmanagementver3
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

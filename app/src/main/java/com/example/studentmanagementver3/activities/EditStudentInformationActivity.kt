@@ -1,4 +1,4 @@
-package com.example.studentmanagementver2.activities
+package com.example.studentmanagementver3.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,11 +6,11 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.*
-import com.example.studentmanagementver2.models.Student
-import com.example.studentmanagementver2.models.StudentList
+import com.example.studentmanagementver3.models.Student
+import com.example.studentmanagementver3.models.StudentList
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import studentmanagementver2.R
+import studentmanagementver3.R
 import java.io.OutputStreamWriter
 
 class EditStudentInformationActivity : AppCompatActivity() {
