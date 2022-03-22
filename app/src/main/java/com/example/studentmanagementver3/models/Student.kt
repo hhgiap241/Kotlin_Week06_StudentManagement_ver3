@@ -15,6 +15,6 @@ data class Student (
     @ColumnInfo(name = "gender")
     var gender: String
     ){
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     var id: Int = 0
 }

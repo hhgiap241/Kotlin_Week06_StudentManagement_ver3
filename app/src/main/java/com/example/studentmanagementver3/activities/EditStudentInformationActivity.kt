@@ -57,13 +57,8 @@ class EditStudentInformationActivity : AppCompatActivity() {
 
         val intent = intent
         val position = intent.getIntExtra("position", 0)
-        var oldStudent = StudentList.getStudentAtPosition(position)
-        this.setValue(
-            oldStudent.name,
-            oldStudent.birthday,
-            oldStudent.classroom,
-            oldStudent.gender
-        )
+//        var oldStudent = StudentList.getStudentAtPosition(position)
+        this.setValue(StudentList.getStudentAtPosition(position))
 
         saveBtn!!.setOnClickListener {
             // check empty name
@@ -87,28 +82,29 @@ class EditStudentInformationActivity : AppCompatActivity() {
                 classroom.toString(),
                 radioButton!!.text.toString()
             )
-            StudentList.editStudentInfo(oldStudent, newStudent)
-            oldStudent.id = 1
+            StudentList.editStudentInfo(position, newStudent)
+            newStudent.id = position + 1 // plus 1 bc in db position start from 1
             db!!.studentDao().updateStudent(newStudent)
             Toast.makeText(this, "Update successfully!", Toast.LENGTH_SHORT).show()
             finish()
         }
         deleteBtn!!.setOnClickListener {
-            StudentList.deleteStudent(oldStudent)
-            db!!.studentDao().deleteStudent(position)
+            StudentList.deleteStudent(position)
+            db!!.studentDao().deleteStudent(position + 1) // plus 1 bc in db position start from 1
+            db!!.studentDao().updateID(position + 1)
             Toast.makeText(this, "Delete successfully!", Toast.LENGTH_SHORT).show()
             finish()
         }
     }
 
-    fun setValue(name: String, birthday: String, classroom: String, gender: String) {
-        editStudentNameET!!.setText(name)
-        editStudentBrithdayET!!.setText(birthday)
-        var pos: Int = classroom.last().digitToInt() - 1
+    fun setValue(student: Student) {
+        editStudentNameET!!.setText(student.name)
+        editStudentBrithdayET!!.setText(student.birthday)
+        var pos: Int = student.classroom.last().digitToInt() - 1
         editStudentClassSpinner!!.setSelection(pos)
-        if (gender == "Male")
+        if (student.gender == "Male")
             radioGroup!!.check(R.id.maleRB_2)
-        else if (gender == "Female")
+        else if (student.gender == "Female")
             radioGroup!!.check(R.id.femaleRB_2)
         else
             radioGroup!!.check(R.id.otherGenderRB_2)

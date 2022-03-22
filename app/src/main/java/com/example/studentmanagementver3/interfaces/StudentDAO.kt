@@ -8,12 +8,18 @@ public interface StudentDAO {
     @Query("SELECT * FROM student")
     fun getStudentList(): List<Student>
 
-    @Insert
-    fun insertStudent(student: Student)
+//    @Insert
+//    fun insertStudent(student: Student)
 
     @Update
     fun updateStudent(student: Student)
 
     @Query("DELETE FROM student WHERE id = :id")
     fun deleteStudent(id: Int)
+
+    @Query("UPDATE student SET id = id - 1 WHERE id > :id")
+    fun updateID(id: Int)
+
+    @Query ("INSERT INTO student (id, name, birthday, classroom, gender) VALUES (:id, :name, :birthday, :classroom, :gender)")
+    fun insertStudent(id: Int, name: String, birthday: String, classroom: String, gender: String)
 }
