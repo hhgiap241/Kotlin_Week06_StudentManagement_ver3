@@ -83,15 +83,15 @@ class EditStudentInformationActivity : AppCompatActivity() {
                 radioButton!!.text.toString()
             )
             StudentList.editStudentInfo(position, newStudent)
-            newStudent.id = position + 1 // plus 1 bc in db position start from 1
+            newStudent.id = position
             db!!.studentDao().updateStudent(newStudent)
             Toast.makeText(this, "Update successfully!", Toast.LENGTH_SHORT).show()
             finish()
         }
         deleteBtn!!.setOnClickListener {
             StudentList.deleteStudent(position)
-            db!!.studentDao().deleteStudent(position + 1) // plus 1 bc in db position start from 1
-            db!!.studentDao().updateID(position + 1)
+            db!!.studentDao().deleteStudent(position)
+            db!!.studentDao().updateID(position)
             Toast.makeText(this, "Delete successfully!", Toast.LENGTH_SHORT).show()
             finish()
         }

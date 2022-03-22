@@ -72,7 +72,7 @@ class AddStudentActivity : AppCompatActivity() {
             )
             // add student to list
             StudentList.addStudent(student)
-            db!!.studentDao().insertStudent(StudentList.getItemCount(), student.name, student.birthday, student.classroom, student.gender)
+            db!!.studentDao().insertStudent(StudentList.getItemCount() - 1, student.name, student.birthday, student.classroom, student.gender)
             Toast.makeText(this, "Saved successfully!", Toast.LENGTH_SHORT).show()
             // clear user input
             this.clearInput()
