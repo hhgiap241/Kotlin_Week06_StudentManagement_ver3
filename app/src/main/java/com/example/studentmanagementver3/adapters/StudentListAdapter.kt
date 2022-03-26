@@ -1,5 +1,6 @@
 package com.example.studentmanagementver3.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ class StudentListAdapter(
     private val isLinearLayoutManager: Boolean
 ) :
     RecyclerView.Adapter<StudentListAdapter.ViewHolder>() {
-    var onItemClick: ((Int) -> Unit)? = null
+    var onItemClick: ((Student) -> Unit)? = null
 
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val studentNameTV = listItemView.findViewById<TextView>(R.id.studentFullNameTV)
@@ -25,7 +26,9 @@ class StudentListAdapter(
 
         init {
             listItemView.setOnClickListener {
-                onItemClick?.invoke(adapterPosition)
+                Log.i("hdlog2", adapterPosition.toString())
+                Log.i("hdlog1", "student.id: ${studentList[adapterPosition].id}")
+                onItemClick?.invoke(studentList[adapterPosition])
             }
         }
     }

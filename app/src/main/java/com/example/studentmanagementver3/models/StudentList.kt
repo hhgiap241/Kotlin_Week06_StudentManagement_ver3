@@ -14,11 +14,6 @@ object StudentList {
         }
     }
 
-    //    fun setNameListData(){
-//        for (i in studentList.indices){
-//            studentNameList.add(studentList[i].name)
-//        }
-//    }
     fun getStudentNameList():ArrayList<String>{
         return this.studentNameList
     }
@@ -33,19 +28,12 @@ object StudentList {
     }
 
     fun deleteStudent(position: Int) {
+        for (i in position + 1 until studentList.size) {
+            studentList[i].id -= 1
+        }
         studentList.removeAt(position)
         studentNameList.removeAt(position)
-//        for (i in studentList.indices) {
-//            if (studentList[i].name == student.name &&
-//                studentList[i].classroom == student.classroom &&
-//                studentList[i].gender == student.gender &&
-//                studentList[i].birthday == student.birthday
-//            ) {
-//                studentList.removeAt(i)
-//                studentNameList.removeAt(i)
-//                return
-//            }
-//        }
+
     }
 
     fun editStudentInfo(position: Int, newStudent: Student) {
@@ -55,21 +43,6 @@ object StudentList {
         studentList[position].classroom = newStudent.classroom
         // update name
         studentNameList[position] = newStudent.name
-//        for (i in studentList.indices) {
-//            if (studentList[i].name == oldStudent.name &&
-//                studentList[i].classroom == oldStudent.classroom &&
-//                studentList[i].gender == oldStudent.gender &&
-//                studentList[i].birthday == oldStudent.birthday
-//            ) {
-//                studentList[i].name = newStudent.name
-//                studentList[i].birthday = newStudent.birthday
-//                studentList[i].gender = newStudent.gender
-//                studentList[i].classroom = newStudent.classroom
-//                // update name
-//                studentNameList[i] = newStudent.name
-//                return
-//            }
-//        }
     }
 
     fun getItemCount(): Int {

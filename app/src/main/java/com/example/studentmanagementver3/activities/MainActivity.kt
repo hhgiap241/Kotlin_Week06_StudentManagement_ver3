@@ -33,24 +33,6 @@ class MainActivity : AppCompatActivity() {
     private var isLinearLayoutManager: Boolean? = null
     private var autoCompleteTV: AutoCompleteTextView? = null
 
-    fun readJSONFile() {
-        try {
-            var data: ArrayList<Student> = ArrayList()
-            val inputStream: InputStream = openFileInput("studentList.json")
-            data = Json { ignoreUnknownKeys = true; explicitNulls = false }.decodeFromStream(
-                inputStream
-            )
-            // set data for student list
-            StudentList.setListData(data)
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-//            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
-        } catch (t: Throwable) {
-            t.printStackTrace()
-//            Toast.makeText(this, t.message, Toast.LENGTH_SHORT).show()
-        }
-    }
-
     fun readDatabase() {
         val db = StudentDatabase.getInstance(this)
         Log.i("hdlog", getDatabasePath(StudentDatabase.DATABASE_NAME).absolutePath)
@@ -62,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_student_list)
 
-//        readJSONFile()
         readDatabase()
 
         studentRecyclerView = findViewById(R.id.studentListRV)
@@ -115,10 +96,11 @@ class MainActivity : AppCompatActivity() {
     fun setUpRecyclerAdapter(data: ArrayList<Student>, isLinearLayoutManager: Boolean) {
         adapter = StudentListAdapter(data, isLinearLayoutManager!!)
         studentRecyclerView!!.adapter = adapter
-        adapter!!.onItemClick = { position ->
+        adapter!!.onItemClick = { student ->
             val intent = Intent(this, EditStudentInformationActivity::class.java)
-            intent.putExtra("position", position)
-            Log.i("hdlog", "position: $position")
+            intent.putExtra("position", student.id)
+            Log.i("hdlog1", "student: ${student}")
+
             startActivity(intent)
         }
     }
@@ -175,6 +157,7 @@ class MainActivity : AppCompatActivity() {
         autoCompleteTV!!.setSelection(text.length)
 
         adapter!!.notifyDataSetChanged()
+//        setUpRecyclerAdapter(StudentList.getStudentList(), isLinearLayoutManager!!)
         setUpAutoCompleteTVAdapter(StudentList.getStudentNameList())
     }
 }

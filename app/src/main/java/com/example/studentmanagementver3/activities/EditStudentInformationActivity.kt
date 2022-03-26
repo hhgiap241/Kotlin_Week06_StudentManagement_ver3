@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter
 
 class EditStudentInformationActivity : AppCompatActivity() {
     private var editStudentNameET: EditText? = null
-    private var editStudentBrithdayET: EditText? = null
+    private var editStudentBirthdayET: EditText? = null
     private var editStudentClassSpinner: Spinner? = null
     private var radioGroup: RadioGroup? = null
     private var radioButton: RadioButton? = null
@@ -31,7 +31,7 @@ class EditStudentInformationActivity : AppCompatActivity() {
         var classroom: String? = null
 
         editStudentNameET = findViewById(R.id.editNameET)
-        editStudentBrithdayET = findViewById(R.id.editDateET)
+        editStudentBirthdayET = findViewById(R.id.editDateET)
         editStudentClassSpinner = findViewById(R.id.editClassSpinner)
         radioGroup = findViewById(R.id.radioGroup_2)
         saveBtn = findViewById(R.id.saveAddStudentBtn_2)
@@ -57,8 +57,8 @@ class EditStudentInformationActivity : AppCompatActivity() {
 
         val intent = intent
         val position = intent.getIntExtra("position", 0)
-//        var oldStudent = StudentList.getStudentAtPosition(position)
-        this.setValue(StudentList.getStudentAtPosition(position))
+        Log.i("hdlog1", position.toString())
+        this.setValueForContentView(StudentList.getStudentAtPosition(position))
 
         saveBtn!!.setOnClickListener {
             // check empty name
@@ -67,8 +67,8 @@ class EditStudentInformationActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             // check empty birthday
-            if (TextUtils.isEmpty(editStudentBrithdayET!!.text.toString())) { // check if input is empty
-                editStudentBrithdayET!!.setError("This field can't be empty")
+            if (TextUtils.isEmpty(editStudentBirthdayET!!.text.toString())) { // check if input is empty
+                editStudentBirthdayET!!.setError("This field can't be empty")
                 return@setOnClickListener
             }
 
@@ -78,7 +78,7 @@ class EditStudentInformationActivity : AppCompatActivity() {
 
             var newStudent = Student(
                 editStudentNameET!!.text.toString(),
-                editStudentBrithdayET!!.text.toString(),
+                editStudentBirthdayET!!.text.toString(),
                 classroom.toString(),
                 radioButton!!.text.toString()
             )
@@ -97,9 +97,9 @@ class EditStudentInformationActivity : AppCompatActivity() {
         }
     }
 
-    fun setValue(student: Student) {
+    fun setValueForContentView(student: Student) {
         editStudentNameET!!.setText(student.name)
-        editStudentBrithdayET!!.setText(student.birthday)
+        editStudentBirthdayET!!.setText(student.birthday)
         var pos: Int = student.classroom.last().digitToInt() - 1
         editStudentClassSpinner!!.setSelection(pos)
         if (student.gender == "Male")
@@ -108,25 +108,5 @@ class EditStudentInformationActivity : AppCompatActivity() {
             radioGroup!!.check(R.id.femaleRB_2)
         else
             radioGroup!!.check(R.id.otherGenderRB_2)
-    }
-
-    fun saveToFile() {
-        try {
-            val fileName = "studentList.json"
-            // File will be in "/data/data/$packageName/files/"
-            val format = Json { explicitNulls = false }
-            val jsonString = format.encodeToString(StudentList.getStudentList())
-            val out = OutputStreamWriter(openFileOutput(fileName, 0))
-            out.write(jsonString)
-            out.close()
-        } catch (t: Throwable) {
-            Log.e("error", t.message.toString())
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i("ok", "Saved")
-        this.saveToFile()
     }
 }

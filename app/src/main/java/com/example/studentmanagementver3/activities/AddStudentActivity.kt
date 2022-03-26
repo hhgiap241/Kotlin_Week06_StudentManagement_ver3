@@ -72,24 +72,12 @@ class AddStudentActivity : AppCompatActivity() {
             )
             // add student to list
             StudentList.addStudent(student)
+            Log.i("total student", StudentList.getItemCount().toString())
+            student.id = StudentList.getItemCount() - 1
             db!!.studentDao().insertStudent(StudentList.getItemCount() - 1, student.name, student.birthday, student.classroom, student.gender)
             Toast.makeText(this, "Saved successfully!", Toast.LENGTH_SHORT).show()
             // clear user input
             this.clearInput()
-        }
-    }
-
-    fun saveToFile() {
-        try {
-            val fileName = "studentList.json"
-            // File will be in "/data/data/$packageName/files/"
-            val format = Json { explicitNulls = false }
-            val jsonString = format.encodeToString(StudentList.getStudentList())
-            val out = OutputStreamWriter(openFileOutput(fileName, 0))
-            out.write(jsonString)
-            out.close()
-        } catch (t: Throwable) {
-            Log.e("error", t.message.toString())
         }
     }
 
@@ -98,11 +86,5 @@ class AddStudentActivity : AppCompatActivity() {
         studentBirthday!!.setText("")
         studentGenderRadioGroup!!.check(R.id.maleRB)
         studentClassSpinner!!.setSelection(0)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i("ok", "Saved")
-        this.saveToFile()
     }
 }
